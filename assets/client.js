@@ -33,7 +33,133 @@
     waterOn: true,
     waterGoal: 8,        // 每天目标杯数（默认 8，可改）
     showWork: true,
-    mini: false          // 最小化到输入框底部的杯排
+    mini: false,         // 最小化到输入框底部的杯排
+    lang: 'auto'         // 界面语言：auto = 跟随 Harness/浏览器语言，另可强制 zh / en
+  }
+
+  // ---------- 文案（中英双语） ----------
+  // 所有界面上看得见的字都在这里；带函数的几项是「带参数」的句子
+  var TEXT = {
+    zh: {
+      tagSettings: '设置',
+      close: '关闭',
+      lang: '语言',
+      langAuto: '跟随系统',
+      statWork: '今日工作',
+      interval: '提醒间隔',
+      unitMinute: '分钟',
+      workHours: '工作时段',
+      lunch: '午休',
+      sound: '提示音',
+      volume: '提示音量',
+      waterOn: '喝水提醒',
+      unitCup: '杯',
+      workRecord: '工作记录',
+      workRecordAuto: '自动累计开机时长',
+      size: '画面大小',
+      fontSize: '时间字号',
+      testNow: '立即测试',
+      resume: '恢复提醒',
+      guide: '参考《中国居民膳食指南（2022）》：成年男性每天饮水 1700ml、女性 1500ml。',
+      cardTitle: '站起来活动活动，喝点水',
+      ack: '我站起来了！',
+      snooze: '再过 5 分钟',
+      pauseToday: '不再提醒',
+      miniCollapse: '收起到输入框',
+      settings: '设置',
+      petLabel: '久坐提醒',
+      pcLabel: '开机关机',
+      chairLabel: '回来工作',
+      cupLabel: '喝一杯',
+      badgeLabel: '下次提醒',
+      miniExpand: '展开挂件',
+      badgeWork: '工作',
+      badgeLeave: '离开',
+      badgeOff: '收工',
+      titleAway: '离开中 · 点椅子回来',
+      titleOffWork: '今天已收工 · 点电脑重新开机',
+      titleOff: '点一下显示器开始今天的工作',
+      titlePaused: function (c) { return '今天不再提醒，' + c + ' 恢复' },
+      titleRest: function (c) { return '不在工作时段，' + (c ? '下次提醒 ' + c : '时段内才会提醒') },
+      titleNext: function (c) { return '下次提醒 ' + c + ' · 点小人离开，点电脑关机' },
+      titleIdle: '点小人离开 · 点电脑关机',
+      hintAway: '已离开电脑，点椅子回来继续工作',
+      hintOffWork: '今天已收工，点电脑可以重新开机',
+      hintOff: '点一下画面里的显示器，开始今天的工作',
+      hintPaused: function (c) { return '已暂停，' + c + ' 自动恢复' },
+      hintRest: '当前不在工作时段，时段内才会提醒',
+      hintNext: function (c) { return '下次提醒 ' + c },
+      waterNote: function (n) { return '约 ' + n + ' 分钟一杯（人在电脑前就蓄水）' },
+      durHM: function (h, m) { return h + ' 小时 ' + m + ' 分' },
+      durMin: function (m) { return m + ' 分钟' },
+      cupN: function (i) { return '第 ' + i + ' 杯水' }
+    },
+    en: {
+      tagSettings: 'Settings',
+      close: 'Close',
+      lang: 'Language',
+      langAuto: 'Follow system',
+      statWork: 'Worked',
+      interval: 'Remind every',
+      unitMinute: 'min',
+      workHours: 'Work hours',
+      lunch: 'Lunch',
+      sound: 'Sound',
+      volume: 'Volume',
+      waterOn: 'Water',
+      unitCup: 'cups',
+      workRecord: 'Work log',
+      workRecordAuto: 'time at the desk',
+      size: 'Size',
+      fontSize: 'Clock size',
+      testNow: 'Test now',
+      resume: 'Resume',
+      guide: 'Reference: Chinese Dietary Guidelines (2022) — 1700 ml a day for adult men, 1500 ml for adult women.',
+      cardTitle: 'Time to stand up and drink some water',
+      ack: 'I stood up!',
+      snooze: 'In 5 minutes',
+      pauseToday: 'Not today',
+      miniCollapse: 'Collapse to composer',
+      settings: 'Settings',
+      petLabel: 'Stand-up reminder',
+      pcLabel: 'Power',
+      chairLabel: 'Back to work',
+      cupLabel: 'Drink a cup',
+      badgeLabel: 'Next',
+      miniExpand: 'Expand widget',
+      badgeWork: 'Working',
+      badgeLeave: 'Away',
+      badgeOff: 'Off',
+      titleAway: 'Away — click the chair to come back',
+      titleOffWork: 'Done for today — click the monitor to start again',
+      titleOff: 'Click the monitor to start your day',
+      titlePaused: function (c) { return 'Paused until ' + c },
+      titleRest: function (c) { return (c ? 'Outside work hours — next reminder ' + c : 'Outside work hours') },
+      titleNext: function (c) { return 'Next reminder ' + c + ' · click the worker to leave, the monitor to shut down' },
+      titleIdle: 'Click the worker to leave · click the monitor to shut down',
+      hintAway: 'Away from the desk — click the chair to come back',
+      hintOffWork: 'Done for today — click the monitor to start again',
+      hintOff: 'Click the monitor in the scene to start your day',
+      hintPaused: function (c) { return 'Paused, resumes at ' + c },
+      hintRest: 'Outside work hours — reminders only run inside them',
+      hintNext: function (c) { return 'Next reminder ' + c },
+      waterNote: function (n) { return 'About one cup every ' + n + ' min while you are at the desk' },
+      durHM: function (h, m) { return h + 'h ' + m + 'm' },
+      durMin: function (m) { return m + ' min' },
+      cupN: function (i) { return 'Cup ' + i }
+    }
+  }
+
+  function langTag() {
+    var l = state.settings.lang
+    if (l === 'zh' || l === 'en') return l
+    var n = String((typeof navigator !== 'undefined' && navigator.language) || 'en').toLowerCase()
+    return n.indexOf('zh') === 0 ? 'zh' : 'en'
+  }
+
+  function t(key) {
+    var dict = TEXT[langTag()] || TEXT.zh
+    return dict[key] !== undefined ? dict[key] : TEXT.zh[key]
   }
 
   var state = {
@@ -199,6 +325,7 @@
         applyScale()
         applyPos()
         hydrating = false
+        applyLang()
         fillForm()
         paintCup()
         renderStats()
@@ -410,6 +537,8 @@
     '.link:hover{color:#4f7fe0}',
     '.field{display:flex;align-items:center;gap:8px;margin:8px 0;color:#4b5563;font-size:calc(var(--hsize,14px) * .93)}',
     '.field>span{width:66px;flex:none;color:#7b8496}',
+    ':host([lang="en"]) .field>span{width:88px}',
+    ':host([lang="en"]) .field{font-size:calc(var(--hsize,14px) * .88)}',
     '.field b{color:#b6bdcb;font-weight:400}',
     '.field em{font-style:normal;color:#98a2b3;font-size:calc(var(--hsize,14px) * .86)}',
     '.field input[type=number]{width:60px}',
@@ -536,36 +665,37 @@
     '</style>',
     '<div class="stack">',
     '  <section class="panel" id="panel" hidden>',
-    '    <div class="card-top"><span class="tag">设置</span><button class="icon" id="panelClose" title="关闭">✕</button></div>',
-    '    <div class="stat" id="statWork"><span>今日工作</span><b id="statWorkVal">0 分钟</b></div>',
-    '    <label class="field"><span>提醒间隔</span><input id="fInterval" type="number" min="5" max="180" step="5"><em>分钟</em></label>',
-    '    <label class="field"><span>工作时段</span><input id="fWorkStart" type="time"><b>–</b><input id="fWorkEnd" type="time"></label>',
-    '    <label class="field"><span>午休</span><input id="fLunch" type="checkbox"><input id="fLunchStart" type="time"><b>–</b><input id="fLunchEnd" type="time"></label>',
-    '    <label class="field"><span>提示音</span><input id="fSound" type="checkbox"></label>',
-    '    <label class="field"><span>提示音量</span><input id="fVolume" type="range" min="0" max="100" step="5"><em class="scaleval" id="fVolumeVal">70%</em></label>',
-    '    <label class="field"><span>喝水提醒</span><input id="fWaterOn" type="checkbox"><b class="drinkcount" id="drinkCount">0</b><em>/</em><input id="fWaterGoal" type="number" min="1" max="20" step="1"><em>杯</em></label>',
-    '    <label class="field"><span>工作记录</span><input id="fShowWork" type="checkbox"><em>自动累计开机时长</em></label>',
-    '    <label class="field"><span>画面大小</span><input id="fScale" type="range" min="50" max="300" step="5"><em class="scaleval" id="fScaleVal">125%</em></label>',
-    '    <label class="field"><span>时间字号</span><input id="fFont" type="range" min="20" max="48" step="2"><em class="scaleval" id="fFontVal">32px</em></label>',
-    '    <div class="row"><button class="ghost" id="testNow">立即测试</button><button class="ghost" id="resumeBtn" hidden>恢复提醒</button></div>',
+    '    <div class="card-top"><span class="tag" data-i18n="tagSettings">设置</span><button class="icon" id="panelClose" title="关闭" data-i18n-title="close">✕</button></div>',
+    '    <label class="field"><span data-i18n="lang">语言</span><select id="fLang"><option value="auto" data-i18n="langAuto">跟随系统</option><option value="zh">中文</option><option value="en">English</option></select></label>',
+    '    <div class="stat" id="statWork"><span data-i18n="statWork">今日工作</span><b id="statWorkVal">0 分钟</b></div>',
+    '    <label class="field"><span data-i18n="interval">提醒间隔</span><input id="fInterval" type="number" min="5" max="180" step="5"><em data-i18n="unitMinute">分钟</em></label>',
+    '    <label class="field"><span data-i18n="workHours">工作时段</span><input id="fWorkStart" type="time"><b>–</b><input id="fWorkEnd" type="time"></label>',
+    '    <label class="field"><span data-i18n="lunch">午休</span><input id="fLunch" type="checkbox"><input id="fLunchStart" type="time"><b>–</b><input id="fLunchEnd" type="time"></label>',
+    '    <label class="field"><span data-i18n="sound">提示音</span><input id="fSound" type="checkbox"></label>',
+    '    <label class="field"><span data-i18n="volume">提示音量</span><input id="fVolume" type="range" min="0" max="100" step="5"><em class="scaleval" id="fVolumeVal">70%</em></label>',
+    '    <label class="field"><span data-i18n="waterOn">喝水提醒</span><input id="fWaterOn" type="checkbox"><b class="drinkcount" id="drinkCount">0</b><em>/</em><input id="fWaterGoal" type="number" min="1" max="20" step="1"><em data-i18n="unitCup">杯</em></label>',
+    '    <label class="field"><span data-i18n="workRecord">工作记录</span><input id="fShowWork" type="checkbox"><em data-i18n="workRecordAuto">自动累计开机时长</em></label>',
+    '    <label class="field"><span data-i18n="size">画面大小</span><input id="fScale" type="range" min="50" max="300" step="5"><em class="scaleval" id="fScaleVal">125%</em></label>',
+    '    <label class="field"><span data-i18n="fontSize">时间字号</span><input id="fFont" type="range" min="20" max="48" step="2"><em class="scaleval" id="fFontVal">32px</em></label>',
+    '    <div class="row"><button class="ghost" id="testNow" data-i18n="testNow">立即测试</button><button class="ghost" id="resumeBtn" hidden data-i18n="resume">恢复提醒</button></div>',
     '    <p class="note" id="waterNote"></p>',
-    '    <p class="note">参考《中国居民膳食指南（2022）》：成年男性每天饮水 1700ml、女性 1500ml。</p>',
+    '    <p class="note" data-i18n="guide">参考《中国居民膳食指南（2022）》：成年男性每天饮水 1700ml、女性 1500ml。</p>',
     '    <p class="hint" id="hint"></p>',
     '  </section>',
     '  <section class="card" id="card" hidden>',
-    '    <h2>站起来活动活动，喝点水</h2>',
-    '    <div class="row actions"><button class="primary" id="ack">我站起来了！</button><button class="ghost" id="snooze">再过 5 分钟</button>',
-    '      <button class="ghost" id="pauseToday">不再提醒</button></div>',
+    '    <h2 data-i18n="cardTitle">站起来活动活动，喝点水</h2>',
+    '    <div class="row actions"><button class="primary" id="ack" data-i18n="ack">我站起来了！</button><button class="ghost" id="snooze" data-i18n="snooze">再过 5 分钟</button>',
+    '      <button class="ghost" id="pauseToday" data-i18n="pauseToday">不再提醒</button></div>',
     '  </section>',
-    '  <button class="menu mini" id="miniBtn" type="button" title="收起到输入框" aria-label="收起到输入框"><span></span></button>',
-'  <button class="menu" id="menuBtn" type="button" title="设置" aria-label="设置"><span></span><span></span><span></span></button>',
-    '  <button class="pet" id="pet" type="button" aria-label="久坐提醒">',
+    '  <button class="menu mini" id="miniBtn" type="button" title="收起到输入框" aria-label="收起到输入框" data-i18n-title="miniCollapse" data-i18n-aria="miniCollapse"><span></span></button>',
+'  <button class="menu" id="menuBtn" type="button" title="设置" aria-label="设置" data-i18n-title="settings" data-i18n-aria="settings"><span></span><span></span><span></span></button>',
+    '  <button class="pet" id="pet" type="button" aria-label="久坐提醒" data-i18n-aria="petLabel">',
     '    <span class="stage">',
     '    <svg class="scene" viewBox="0 0 36 28" aria-hidden="true">',
     '      <rect class="wood" x="12" y="20" width="24" height="3"/>',
     '      <rect class="wood" x="13" y="23" width="1" height="4"/>',
     '      <rect class="wood" x="34" y="23" width="1" height="4"/>',
-    '      <g class="hit" id="pc" role="button" tabindex="0" aria-label="开机关机">',
+    '      <g class="hit" id="pc" role="button" tabindex="0" aria-label="开机关机" data-i18n-aria="pcLabel">',
     '        <rect class="bezel" x="24" y="7" width="11" height="9"/>',
     '        <rect class="screen" x="25" y="8" width="9" height="7"/>',
     '        <rect class="code" x="26" y="9" width="6" height="1"/>',
@@ -579,7 +709,7 @@
     '        <rect class="bezel" x="26" y="19" width="7" height="1"/>',
     '      </g>',
     '      <rect class="kb" x="12" y="19" width="4" height="1"/>',
-    '      <g class="hit" id="chair" role="button" tabindex="0" aria-label="回来工作">',
+    '      <g class="hit" id="chair" role="button" tabindex="0" aria-label="回来工作" data-i18n-aria="chairLabel">',
     '        <rect class="chair" x="1" y="9" width="4" height="2" rx="1"/>',
     '        <rect class="chair" x="1" y="11" width="3" height="9"/>',
     '        <rect class="chair" x="1" y="17" width="4" height="3"/>',
@@ -679,7 +809,7 @@
     '          </g>',
     '        </g>',
     '      </g>',
-    '      <g class="hit" id="cup" role="button" tabindex="0" aria-label="喝一杯">',
+    '      <g class="hit" id="cup" role="button" tabindex="0" aria-label="喝一杯" data-i18n-aria="cupLabel">',
     '        <clipPath id="cupGlass"><polygon points="17.6,13.6 21.6,13.6 20.8,20 18.4,20"/></clipPath>',
     '        <polygon class="cupbody" points="17.6,13.6 21.6,13.6 20.8,20 18.4,20"/>',
     '        <g clip-path="url(#cupGlass)">',
@@ -691,7 +821,7 @@
     '    </svg>',
     '    </span>',
     '    <span class="chips">',
-    '      <i class="blabel" id="badgeLabel">下次提醒</i>',
+    '      <i class="blabel" id="badgeLabel" data-i18n="badgeLabel">下次提醒</i>',
     '      <span class="badge" id="badge">—</span>',
     '    </span>',
     '  </button>',
@@ -699,8 +829,8 @@
     '<div class="minibar" id="miniBar" hidden>',
     '  <div class="minicups" id="miniCups"></div>',
     '  <div class="miniacts">',
-    '    <button class="miniico" id="miniGear" type="button" title="设置" aria-label="设置"><span></span><span></span><span></span></button>',
-    '    <button class="miniico plus" id="miniRestore" type="button" title="展开挂件" aria-label="展开挂件">+</button>',
+    '    <button class="miniico" id="miniGear" type="button" title="设置" aria-label="设置" data-i18n-title="settings" data-i18n-aria="settings"><span></span><span></span><span></span></button>',
+    '    <button class="miniico plus" id="miniRestore" type="button" title="展开挂件" aria-label="展开挂件" data-i18n-title="miniExpand" data-i18n-aria="miniExpand">+</button>',
     '  </div>',
     '</div>',
     '<svg class="mdefs" width="0" height="0" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">',
@@ -736,6 +866,7 @@
   var cupWater = shadow.getElementById('cupWater')
 
   var fields = {
+    lang: shadow.getElementById('fLang'),
     interval: shadow.getElementById('fInterval'),
     workStart: shadow.getElementById('fWorkStart'),
     workEnd: shadow.getElementById('fWorkEnd'),
@@ -761,6 +892,28 @@
   var lastTick = Date.now()
   var lastWorkSave = 0
 
+  // 把模板里所有带 data-i18n* 的节点按当前语言重填一遍
+  function applyLang() {
+    var dict = TEXT[langTag()] || TEXT.zh
+    host.setAttribute('lang', langTag() === 'zh' ? 'zh-CN' : 'en')
+    Array.prototype.forEach.call(shadow.querySelectorAll('[data-i18n]'), function (el) {
+      var v = dict[el.getAttribute('data-i18n')]
+      if (typeof v === 'string') el.textContent = v
+    })
+    Array.prototype.forEach.call(shadow.querySelectorAll('[data-i18n-title]'), function (el) {
+      var v = dict[el.getAttribute('data-i18n-title')]
+      if (typeof v === 'string') el.title = v
+    })
+    Array.prototype.forEach.call(shadow.querySelectorAll('[data-i18n-aria]'), function (el) {
+      var v = dict[el.getAttribute('data-i18n-aria')]
+      if (typeof v === 'string') el.setAttribute('aria-label', v)
+    })
+    paintWaterNote()
+    renderStats()
+    renderBadge(Date.now())
+    if (miniOn()) ensureCups(cupsPerDay())
+  }
+
   function mount() {
     var root = document.body || document.documentElement
     if (!root) { setTimeout(mount, 300); return }
@@ -773,6 +926,7 @@
     } catch (err) {}
     applyScale()
     applyFont()
+    applyLang()
     syncPc()
     applyPos()
     fillForm()
@@ -865,7 +1019,7 @@
 
   // 面板里那句「工作时段内约 56 分钟一杯」
   function paintWaterNote() {
-    waterNote.textContent = '约 ' + Math.round(fillMs() / 60000) + ' 分钟一杯（人在电脑前就蓄水）'
+    waterNote.textContent = t('waterNote')(Math.round(fillMs() / 60000))
   }
 
   // 水杯水位：p=0 空，p=1 满；用 scaleY 从底部涨上来
@@ -919,7 +1073,7 @@
       b.type = 'button'
       b.className = 'minicup empty'
       b.setAttribute('data-i', String(i))
-      b.setAttribute('aria-label', '第 ' + (i + 1) + ' 杯水')
+      b.setAttribute('aria-label', t('cupN')(i + 1))
       b.innerHTML = '<svg viewBox="0 0 24 26" aria-hidden="true">' +
         '<polygon class="mglass" points="3,2 21,2 18.5,24 5.5,24"/>' +
         '<g clip-path="url(#miniClip)"><rect class="mwater" x="3" y="2" width="18" height="22"/></g>' +
@@ -1057,7 +1211,7 @@
   function fmtDuration(ms) {
     var m = Math.floor(ms / 60000)
     var h = Math.floor(m / 60)
-    return h ? h + ' 小时 ' + (m % 60) + ' 分' : m + ' 分钟'
+    return h ? t('durHM')(h, m % 60) : t('durMin')(m)
   }
 
   function dayKeyOf(ts) {
@@ -1198,6 +1352,7 @@
   }
 
   function fillForm() {
+    fields.lang.value = state.settings.lang === 'zh' || state.settings.lang === 'en' ? state.settings.lang : 'auto'
     fields.interval.value = String(intervalMin())
     fields.workStart.value = state.settings.workStart
     fields.workEnd.value = state.settings.workEnd
@@ -1229,30 +1384,30 @@
     // 只有三种状态：工作（跟下次提醒时间）、离开、收工
     var text
     // 状态必须和画面上的动作对得上：空椅子=离开、翘腿=收工、坐姿=工作
-    if (state.away || mode === 'away' || mode === 'leaving' || mode === 'returning') text = '离开'
-    else if (!state.pcOn || state.offWork || mode === 'paused' || mode === 'boot' || mode === 'off') text = '收工'
-    else text = '工作'
+    if (state.away || mode === 'away' || mode === 'leaving' || mode === 'returning') text = t('badgeLeave')
+    else if (!state.pcOn || state.offWork || mode === 'paused' || mode === 'boot' || mode === 'off') text = t('badgeOff')
+    else text = t('badgeWork')
     badge.textContent = text
     badgeLabel.hidden = true
 
     paintCup()
 
     var title
-    if (state.away) title = '离开中 · 点椅子回来'
-    else if (!state.pcOn) title = state.offWork ? '今天已收工 · 点电脑重新开机' : '点一下显示器开始今天的工作'
-    else if (mode === 'paused' && state.pausedUntil) title = '今天不再提醒，' + clockText(state.pausedUntil) + ' 恢复'
-    else if (mode === 'rest') title = '不在工作时段，' + (state.nextDueAt ? '下次提醒 ' + clockText(state.nextDueAt) : '时段内才会提醒')
-    else if (state.nextDueAt) title = '下次提醒 ' + clockText(state.nextDueAt) + ' · 点小人离开，点电脑关机'
-    else title = '点小人离开 · 点电脑关机'
+    if (state.away) title = t('titleAway')
+    else if (!state.pcOn) title = state.offWork ? t('titleOffWork') : t('titleOff')
+    else if (mode === 'paused' && state.pausedUntil) title = t('titlePaused')(clockText(state.pausedUntil))
+    else if (mode === 'rest') title = t('titleRest')(state.nextDueAt ? clockText(state.nextDueAt) : '')
+    else if (state.nextDueAt) title = t('titleNext')(clockText(state.nextDueAt))
+    else title = t('titleIdle')
     pet.title = title
 
     if (panel.hidden) return
     renderStats()
-    if (state.away) hint.textContent = '已离开电脑，点椅子回来继续工作'
-    else if (!state.pcOn) hint.textContent = state.offWork ? '今天已收工，点电脑可以重新开机' : '点一下画面里的显示器，开始今天的工作'
-    else if (mode === 'paused' && state.pausedUntil) hint.textContent = '已暂停，' + clockText(state.pausedUntil) + ' 自动恢复'
-    else if (mode === 'rest') hint.textContent = '当前不在工作时段，时段内才会提醒'
-    else if (state.nextDueAt) hint.textContent = '下次提醒 ' + clockText(state.nextDueAt)
+    if (state.away) hint.textContent = t('hintAway')
+    else if (!state.pcOn) hint.textContent = state.offWork ? t('hintOffWork') : t('hintOff')
+    else if (mode === 'paused' && state.pausedUntil) hint.textContent = t('hintPaused')(clockText(state.pausedUntil))
+    else if (mode === 'rest') hint.textContent = t('hintRest')
+    else if (state.nextDueAt) hint.textContent = t('hintNext')(clockText(state.nextDueAt))
     else hint.textContent = ''
     shadow.getElementById('resumeBtn').hidden = mode !== 'paused' || !state.pcOn
   }
@@ -1525,6 +1680,9 @@
 
   function readForm() {
     var before = timingKey()
+    var beforeLang = state.settings.lang
+    var lang = fields.lang.value
+    state.settings.lang = lang === 'zh' || lang === 'en' ? lang : 'auto'
     state.settings.interval = clampInt(fields.interval.value, 5, 180, 30)
     state.settings.workStart = /^\d{2}:\d{2}$/.test(fields.workStart.value) ? fields.workStart.value : DEFAULTS.workStart
     state.settings.workEnd = /^\d{2}:\d{2}$/.test(fields.workEnd.value) ? fields.workEnd.value : DEFAULTS.workEnd
@@ -1541,6 +1699,7 @@
       state.pausedUntil = null
       state.nextDueAt = state.pcOn ? adjustDue(Date.now() + intervalMin() * 60000) : null
     }
+    if (state.settings.lang !== beforeLang) applyLang()
     save()
     fillForm()
     tick()

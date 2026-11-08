@@ -43,6 +43,8 @@ Everything is a plain in-page timer: no messages are delivered, no agent is woke
 | Drag the worker | Move it; snaps within 10% of the left/right edge and 15% of the bottom, and mirrors horizontally when snapped left |
 | Hover + wheel | Zoom 5% per notch |
 
+Language: the UI follows the DSH/browser language by default (`zh*` → Chinese, anything else → English). The first row of the settings panel has a **Language** switch — follow system / 中文 / English — and the choice is stored with the rest of the settings.
+
 Reminder card buttons: `我站起来了` (I stood up — restart the timer), `再过 5 分钟` (in 5 minutes), `不再提醒` (not today). `Esc` closes the card or the panel.
 
 Edge behaviour:

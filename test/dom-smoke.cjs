@@ -11,6 +11,8 @@ const dom = new JSDOM('<!doctype html><body><div id="app">dsh</div></body>', {
   runScripts: 'outside-only',
 })
 const { window } = dom
+// 断言里写的是中文文案，把系统语言固定成中文（挂件默认跟随系统）
+Object.defineProperty(window.navigator, 'language', { value: 'zh-CN', configurable: true })
 const errors = []
 window.addEventListener('error', (e) => errors.push(String(e.message)))
 window.eval(script)
@@ -250,6 +252,30 @@ async function main() {
   window.__dshStandReminder.setMini(true)
   window.__dshStandReminder.setMini(false)
   check('回到完整挂件后重新贴位', host.style.left !== '' && host.style.top !== '')
+
+  // 语言切换：默认跟随系统（这里 stub 成 zh-CN），手动切到 English 后所有文案跟着换
+  check('语言默认跟随系统', el('fLang').value === 'auto')
+  check('中文时卡片标题是中文', el('card').querySelector('h2').textContent === '站起来活动活动，喝点水')
+  check('中文时角标是中文', ['工作', '离开', '收工'].indexOf(el('badge').textContent) >= 0)
+
+  window.__dshStandReminder.setMini(false)
+  el('miniGear').dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
+  el('fLang').value = 'en'
+  el('fLang').dispatchEvent(new window.Event('change', { bubbles: true }))
+  check('切到英文后卡片标题变英文', el('card').querySelector('h2').textContent === 'Time to stand up and drink some water')
+  check('切到英文后角标变英文', ['Working', 'Away', 'Off'].indexOf(el('badge').textContent) >= 0)
+  check('切到英文后面板标签变英文', el('fInterval').parentElement.querySelector('span').textContent === 'Remind every')
+  check('切到英文后喝水提示是英文', /one cup every \d+ min/.test(el('waterNote').textContent))
+  check('切到英文后按钮是英文', el('ack').textContent === 'I stood up!')
+  check('语言选择写入存档', store().settings.lang === 'en')
+
+  el('fLang').value = 'zh'
+  el('fLang').dispatchEvent(new window.Event('change', { bubbles: true }))
+  check('切回中文后文案恢复', el('ack').textContent === '我站起来了！' && /约 \d+ 分钟一杯/.test(el('waterNote').textContent))
+  el('fLang').value = 'auto'
+  el('fLang').dispatchEvent(new window.Event('change', { bubbles: true }))
+  check('切回跟随系统用中文', el('ack').textContent === '我站起来了！' && store().settings.lang === 'auto')
+  el('panelClose').dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
 
   check('运行期没有未捕获错误', errors.length === 0)
   if (errors.length) console.log(errors)
