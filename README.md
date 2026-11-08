@@ -10,9 +10,6 @@ The glass on the desk is a separate track: it fills slowly at a "cups per day" p
 
 Everything is a plain in-page timer: no messages are delivered, no agent is woken, no tokens are spent, and nothing goes over the network.
 
-![Full widget](docs/preview-main.png)
-![Mini mode](docs/preview-mini.png)
-
 ## A day with it
 
 1. Open DSH — the worker sits with his legs on the desk, the monitor is dark with a red power button, and the badge reads `收工` (off work).
