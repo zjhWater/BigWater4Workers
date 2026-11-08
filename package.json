@@ -1,0 +1,51 @@
+{
+  "name": "dsh-stand-reminder",
+  "version": "1.0.0",
+  "description": "DSH 桌面端久坐提醒：像素小人坐在电脑前，每 30 分钟站起来提醒你伸展与喝水",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "reminder",
+    "health",
+    "pixel-art"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "docs"
+  ],
+  "scripts": {
+    "test": "node test/dom-smoke.cjs && node test/state-smoke.cjs && node test/hydrate-smoke.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "zjhWater",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zjhWater/BigWater4Workers.git"
+  },
+  "homepage": "https://github.com/zjhWater/BigWater4Workers#readme",
+  "bugs": {
+    "url": "https://github.com/zjhWater/BigWater4Workers/issues"
+  }
+}
