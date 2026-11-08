@@ -1,0 +1,12 @@
+# 依赖与本地工具产物
+node_modules/
+.npmcache/
+*.tgz
+
+# 日志与系统文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 测试里生成的栅格图（scene-*.png 等由 test/render_scene.py 重新生成）
+test/*.png
