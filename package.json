@@ -1,6 +1,6 @@
 {
   "name": "dsh-stand-reminder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DSH 桌面端久坐提醒：像素小人坐在电脑前，每 30 分钟站起来提醒你伸展与喝水",
   "keywords": [
     "dsh",
