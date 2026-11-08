@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>dsh-stand-reminder 预览</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #f6f7fb; font-family: system-ui, "Microsoft YaHei", sans-serif; color: #58627a; }
+  .bar { position: fixed; left: 24px; top: 20px; max-width: 540px; font-size: 13px; line-height: 1.7; }
+  .bar h1 { font-size: 15px; margin: 0 0 4px; color: #3d475b; }
+  .bar p { margin: 0 0 10px; color: #8a93a6; }
+  .bar button { font: inherit; font-size: 13px; padding: 6px 12px; margin: 0 8px 8px 0; border: 1px solid #dfe4ef;
+    border-radius: 8px; background: #fff; color: #3d475b; cursor: pointer; }
+  .bar button:hover { background: #f0f3fa; }
+  code { background: #eceff7; border-radius: 4px; padding: 1px 5px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>dsh-stand-reminder 预览页</h1>
+  <p>用浏览器直接打开这个文件即可（不需要启动 DSH）。右下角是插件挂件的真实渲染，可以拖、可以滚轮缩放。</p>
+  <button id="btnPc">开机 / 收工</button>
+  <button id="btnStand">触发一次站立提醒</button>
+  <button id="btnAway">离开 / 回来</button>
+  <button id="btnDrink">喝一杯</button>
+  <button id="btnPanel">打开 / 收起设置</button>
+  <button id="btnReset">清空本地状态</button>
+  <p><code>?mode=boot</code> 未开机、<code>?mode=away</code> 离开中、<code>?mode=off</code> 收工翘腿、<code>?mode=stand</code> 站立提醒；<code>?scale=140</code> 预览放大后的效果。</p>
+</div>
+<script src="../assets/client.js"></script>
+<script>
+  function shadowEl(id) {
+    var host = document.getElementById('dsh-stand-reminder')
+    return host && host.shadowRoot ? host.shadowRoot.getElementById(id) : null
+  }
+  function tap(node) {
+    node.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, pointerId: 1, clientX: 0, clientY: 0 }))
+    node.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, button: 0, pointerId: 1, clientX: 0, clientY: 0 }))
+  }
+  function mode() {
+    var host = document.getElementById('dsh-stand-reminder')
+    return host ? host.getAttribute('data-mode') : ''
+  }
+
+  document.getElementById('btnPc').onclick = function () { shadowEl('pc').dispatchEvent(new MouseEvent('click', { bubbles: true })) }
+  document.getElementById('btnStand').onclick = function () { shadowEl('testNow').click() }
+  document.getElementById('btnDrink').onclick = function () { shadowEl('cup').dispatchEvent(new MouseEvent('click', { bubbles: true })) }
+  document.getElementById('btnPanel').onclick = function () { shadowEl('menuBtn').click() }
+  document.getElementById('btnAway').onclick = function () {
+    // 离开后小人不在画面里，点椅子回来
+    if (mode() === 'away') shadowEl('chair').dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    else tap(shadowEl('pet'))
+  }
+  document.getElementById('btnReset').onclick = function () {
+    localStorage.removeItem('dsh-stand-reminder:v1')
+    location.reload()
+  }
+
+  var query = location.search
+  var preset = /[?&]mode=(boot|away|off|stand)/.exec(query)
+  var scaleMatch = /[?&]scale=(\d+)/.exec(query)
+  if (preset || scaleMatch) {
+    var key = 'dsh-stand-reminder:v1'
+    var saved = JSON.parse(localStorage.getItem(key) || '{}')
+    var d = new Date()
+    saved.dayKey = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+    saved.settings = saved.settings || {}
+    if (scaleMatch) saved.settings.scale = Math.min(300, Math.max(50, Number(scaleMatch[1]))) / 100
+    if (preset) {
+      if (preset[1] === 'away') { saved.pcOn = true; saved.away = true; saved.offWork = false }
+      else if (preset[1] === 'off') { saved.pcOn = false; saved.away = false; saved.offWork = true }
+      else if (preset[1] === 'boot') { saved.pcOn = false; saved.away = false; saved.offWork = false }
+    }
+    localStorage.setItem(key, JSON.stringify(saved))
+    // 去掉参数再加载，避免反复写入
+    location.replace(location.pathname + (preset && preset[1] === 'stand' ? '?stand' : ''))
+  } else if (query.indexOf('stand') >= 0) {
+    setTimeout(function () { shadowEl('testNow').click() }, 200)
+  }
+</script>
+</body>
+</html>
