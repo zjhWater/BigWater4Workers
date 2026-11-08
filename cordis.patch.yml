@@ -1,0 +1,13 @@
+# ============================================================================
+# dsh-stand-reminder —— bundle 挂载声明
+# ============================================================================
+# 宿主按 bundle 层栈叠加各插件 patch，本文件把久坐提醒插件插入当前 profile。
+# 安装（桌面端只能用宿主内置的 plugin_manager）：
+#   npm 包：  plugin_manager install_bundle  target: dsh-stand-reminder
+#   本地源码：plugin_manager install_bundle  target: link:<源码目录绝对路径>
+# 卸载：plugin_manager remove_bundle  target: dsh-stand-reminder
+# ============================================================================
+
+- insert:
+    - id: dsh-stand-reminder
+      name: dsh-stand-reminder
