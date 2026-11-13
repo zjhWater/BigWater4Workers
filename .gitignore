@@ -10,3 +10,5 @@ Thumbs.db
 
 # 测试里生成的栅格图（scene-*.png 等由 test/render_scene.py 重新生成）
 test/*.png
+
+dist/
