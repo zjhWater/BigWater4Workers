@@ -1,9 +1,11 @@
 # 把 client.js 里的 SVG 场景按像素栅格化，用于检查构图（不依赖浏览器）
+import os
 import re
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageChops, ImageDraw
 
-SRC = r"D:\Python\dsh-stand-reminder\assets\client.js"
+HERE = os.path.dirname(os.path.abspath(__file__))
+SRC = os.path.join(HERE, "..", "assets", "client.js")
 SCALE = 6
 BG = "#f6f7fb"
 
@@ -202,6 +204,6 @@ def render(svg_text, mode):
 
 svg = extract_svg(open(SRC, encoding="utf-8").read())
 for mode in ("sit", "sip", "stand", "walk", "away", "boot", "off"):
-    out = rf"D:\Python\dsh-stand-reminder\test\scene-{mode}.png"
+    out = os.path.join(HERE, f"scene-{mode}.png")
     render(svg, mode).resize((36 * 12, 28 * 12), Image.NEAREST).save(out)
     print("saved", out)
